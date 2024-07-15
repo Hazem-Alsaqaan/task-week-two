@@ -18,7 +18,6 @@ interface Props {
     description: string;
     completed: boolean;
   };
-  setRender: (val: boolean) => void;
 }
 interface TItemSelected {
   _id: string;
@@ -27,7 +26,7 @@ interface TItemSelected {
   completed: boolean;
 }
 
-const TaskBox = ({ item, setRender }: Props) => {
+const TaskBox = ({ item }: Props) => {
   const [expandDescription, setExpandDescription] = useState(false);
   const dispatch = useAppDispatch();
   // Function to handle send which item user need to update
@@ -50,7 +49,6 @@ const TaskBox = ({ item, setRender }: Props) => {
         completed: itemStatus?.completed ? false : true,
       })
     );
-    setRender(true);
   };
   return (
     <div

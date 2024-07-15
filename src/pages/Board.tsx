@@ -5,19 +5,14 @@ import { getAllTasks } from "../redux/actions/tasksActions";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-interface Props {
-  render: boolean;
-  setRender: (val: boolean) => void;
-}
-const Board = ({ render, setRender }: Props) => {
+const Board = () => {
   const dispatch = useAppDispatch();
   const { tasks, tasksLoading } = useSelector(
     (state: RootState) => state.taskSlice
   );
   useEffect(() => {
-    setRender(false);
     dispatch(getAllTasks());
-  }, [dispatch, render]);
+  }, [dispatch]);
   return (
     <>
       <div className="relative min-h-screen pt-44 px-3 container mx-auto">
@@ -25,9 +20,7 @@ const Board = ({ render, setRender }: Props) => {
         {tasksLoading === "pending" ? (
           <p className="text-indigo-500">loading...</p>
         ) : tasks.length > 0 ? (
-          tasks.map((item) => (
-            <TaskBox key={item._id} item={item} setRender={setRender} />
-          ))
+          tasks.map((item) => <TaskBox key={item._id} item={item} />)
         ) : (
           <div className="text-neutral-400">not tasks found...</div>
         )}

@@ -9,10 +9,8 @@ import { useSelector } from "react-redux";
 import ReusableForm from "./components/ReusableForm";
 import HomPages from "./pages/HomPages";
 import SearchResult from "./pages/SearchResult";
-import { useState } from "react";
 
 function App() {
-  const [render, setRender] = useState(false);
   const { settingBoxVisible } = useSelector(
     (state: RootState) => state.publicVariablesSlice
   );
@@ -24,28 +22,14 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomPages />}>
-          <Route
-            index
-            element={<Board render={render} setRender={setRender} />}
-          />
-          <Route
-            path="home"
-            element={<Board render={render} setRender={setRender} />}
-          />
+          <Route index element={<Board />} />
+          <Route path="home" element={<Board />} />
           <Route path="search" element={<SearchResult />} />
         </Route>
-        <Route
-          path="/completed"
-          element={<Completed render={render} setRender={setRender} />}
-        />
-        <Route
-          path="/on-progress"
-          element={<OnProgress render={render} setRender={setRender} />}
-        />
+        <Route path="/completed" element={<Completed />} />
+        <Route path="/on-progress" element={<OnProgress />} />
       </Routes>
-      {settingBoxVisible && (
-        <ReusableForm mood={moodButton} setRender={setRender} />
-      )}
+      {settingBoxVisible && <ReusableForm mood={moodButton} />}
     </div>
   );
 }
