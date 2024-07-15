@@ -5,15 +5,20 @@ import TaskBox from "../components/TaskBox";
 import { getOnProgressTasks } from "../redux/actions/onProgressTasksAction";
 import { ToastContainer } from "react-toastify";
 
-const OnProgress = () => {
+interface Props {
+  render: boolean;
+  setRender: (val: boolean) => void;
+}
+const OnProgress = ({ render, setRender }: Props) => {
   const dispatch = useAppDispatch();
   const { onProgressTasks, onProgressTasksLoading } = useSelector(
     (state: RootState) => state.onProgressSlice
   );
 
   useEffect(() => {
+    setRender(false);
     dispatch(getOnProgressTasks());
-  }, [dispatch]);
+  }, [dispatch, render]);
   return (
     <>
       <div className="relative min-h-screen pt-44 px-3 container mx-auto">
@@ -21,7 +26,9 @@ const OnProgress = () => {
         {onProgressTasksLoading === "pending" ? (
           <p className="text-indigo-500">loading...</p>
         ) : onProgressTasks.length > 0 ? (
-          onProgressTasks.map((item) => <TaskBox key={item._id} item={item} />)
+          onProgressTasks.map((item) => (
+            <TaskBox key={item._id} item={item} setRender={setRender} />
+          ))
         ) : (
           <div className="text-neutral-400">not tasks on progress found...</div>
         )}

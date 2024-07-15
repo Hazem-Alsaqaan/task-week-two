@@ -5,15 +5,20 @@ import TaskBox from "../components/TaskBox";
 import { getCompletedTasks } from "../redux/actions/completedTasksAction";
 import { ToastContainer } from "react-toastify";
 
-const Completed = () => {
+interface Props {
+  render: boolean;
+  setRender: (val: boolean) => void;
+}
+const Completed = ({ render, setRender }: Props) => {
   const dispatch = useAppDispatch();
   const { completedTasks, completedTasksLoading } = useSelector(
     (state: RootState) => state.completedTaskSlice
   );
 
   useEffect(() => {
+    setRender(false);
     dispatch(getCompletedTasks());
-  }, [dispatch]);
+  }, [dispatch, render]);
 
   return (
     <>
@@ -22,7 +27,9 @@ const Completed = () => {
         {completedTasksLoading === "pending" ? (
           <p className="text-indigo-500">loading...</p>
         ) : completedTasks.length > 0 ? (
-          completedTasks.map((item) => <TaskBox key={item._id} item={item} />)
+          completedTasks.map((item) => (
+            <TaskBox key={item._id} item={item} setRender={setRender} />
+          ))
         ) : (
           <div className="text-neutral-400">not completed tasks found...</div>
         )}

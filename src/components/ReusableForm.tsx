@@ -17,9 +17,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 interface Props {
   mood: "create" | "update";
+  setRender: (val: boolean) => void;
 }
 
-const ReusableForm = ({ mood }: Props) => {
+const ReusableForm = ({ mood, setRender }: Props) => {
   const { updateItem } = useSelector((state: RootState) => state.taskSlice);
   const {
     register,
@@ -42,6 +43,7 @@ const ReusableForm = ({ mood }: Props) => {
         completed: false,
       })
     );
+    setRender(true);
     dispatch(toggleSettingBoxVisible());
   };
   const submitUpdateHandler = (data: FieldValues) => {
@@ -53,6 +55,7 @@ const ReusableForm = ({ mood }: Props) => {
         completed: false,
       })
     );
+    setRender(true);
     dispatch(toggleSettingBoxVisible());
   };
   const submitHandler = (data: FieldValues) => {
